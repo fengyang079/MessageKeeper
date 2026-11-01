@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 消息气泡图标 -->
+    <path
+        android:fillColor="#FFB3D9FF"
+        android:pathData="M30,35 L78,35 C80.2,35 82,36.8 82,39 L82,65 C82,67.2 80.2,69 78,69 L50,69 L38,79 L38,69 L30,69 C27.8,69 26,67.2 26,65 L26,39 C26,36.8 27.8,35 30,35Z" />
+    <!-- 气泡内的文字线条 -->
+    <path
+        android:fillColor="#FF1976D2"
+        android:pathData="M38,47 L70,47 M38,55 L62,55 M38,63 L56,63"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FF1976D2" />
+</vector>

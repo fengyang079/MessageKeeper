@@ -1,0 +1,41 @@
+# ── Gradle ────────────────────────────────────────────────
+.gradle/
+build/
+app/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ── Android Studio / IDE ──────────────────────────────────
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ── Kotlin ────────────────────────────────────────────────
+.kotlin/
+
+# ── 本地配置（含本机 SDK 路径，不要提交） ──────────────────
+local.properties
+
+# ── 构建产物 ──────────────────────────────────────────────
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.hprof
+output.json
+
+# ── 临时 / 调试文件 ──────────────────────────────────────
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# ── 本会话的辅助工作目录（含个人聊天数据库备份与截图，
+#    绝对不要提交到仓库） ─────────────────────────────────
+.dsh-work/
+.dsh-shots/

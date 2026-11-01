@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">消息助手</string>
+    <string name="accessibility_service_description">【MessageKeeper 保活服务】\n请开启此服务。开启后，即使您在后台划掉本应用，也能保证消息同步正常运行，避免漏掉任何重要消息。\n（本服务不会读取任何屏幕内容，仅作保活用途）</string>
+    <string name="accessibility_service_label">消息助手后台守护</string>
+    <string name="tab_conversations">对话</string>
+    <string name="tab_settings">设置</string>
+    <string name="title_conversations">消息助手</string>
+    <string name="title_chat_detail">聊天记录</string>
+    <string name="title_settings">设置</string>
+    <string name="title_special_alerts">特别提醒</string>
+    <string name="no_conversations">暂无聊天记录\n收到微信或QQ消息后会自动显示在这里</string>
+    <string name="no_messages">暂无消息记录</string>
+    <string name="export_txt">导出 TXT</string>
+    <string name="export_html">导出 HTML</string>
+    <string name="delete_message">删除消息</string>
+    <string name="delete_conversation">删除对话</string>
+    <string name="delete_all_data">清除所有数据</string>
+    <string name="delete_confirm">确认删除？此操作不可恢复</string>
+    <string name="clear_all_confirm">确定要清除所有数据吗？所有聊天记录将被永久删除</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="export_success">导出成功</string>
+    <string name="export_failed">导出失败</string>
+    <string name="add_alert">添加特别提醒</string>
+    <string name="alert_name_hint">输入联系人名称</string>
+    <string name="platform_wechat">微信</string>
+    <string name="platform_qq">QQ</string>
+    <string name="permission_title">需要通知监听权限</string>
+    <string name="permission_desc">请授予消息助手「通知监听权限」，以便自动记录微信和QQ的消息</string>
+    <string name="permission_button">去开启权限</string>
+    <string name="permission_check">检查权限</string>
+    <string name="permission_granted">权限已开启</string>
+    <string name="permission_denied">权限未开启，请在系统设置中开启</string>
+    <string name="source_notification">通知</string>
+    <string name="message_recalled">已撤回</string>
+    <string name="export_all">导出全部聊天记录</string>
+    <string name="about">关于</string>
+    <string name="version">版本</string>
+    <string name="export_share">分享</string>
+    <string name="copy_text">复制</string>
+    <string name="copied">已复制</string>
+</resources>

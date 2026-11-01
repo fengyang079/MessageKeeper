@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 通知监听权限（核心权限，需用户在设置中手动开启） -->
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- 发送通知权限（Android 13+ 需要运行时请求） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    
+    <!-- 亮屏/唤醒锁权限（息屏状态实时监控核心） -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
+    <!-- 开机自启权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- 前台服务权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <!-- 请求忽略电池优化权限（后台保护） -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- 精确闹钟权限（心跳检测保活） -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <!-- 存储权限（用于导出文件） -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <application
+        android:name=".MessageKeeperApp"
+        android:allowBackup="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
+        android:theme="@style/Theme.MessageKeeper">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|uiMode|density|smallestScreenSize"
+            android:theme="@style/Theme.MessageKeeper">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
+        <!-- 通知监听服务 -->
+        <service
+            android:name=".service.MessageNotificationListener"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- 前台服务（用于后台保活） -->
+        <service
+            android:name=".service.ForegroundKeepAliveService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <!-- 覆盖 Fw 框架自带的 DaemonService 前台类型，防止 dataSync 超时 -->
+        <service
+            android:name="com.service.framework.strategy.DaemonService"
+            android:foregroundServiceType="mediaPlayback"
+            tools:replace="android:foregroundServiceType" />
+        
+        <service
+            android:name="com.service.framework.strategy.KeepLiveService"
+            android:foregroundServiceType="mediaPlayback"
+            tools:replace="android:foregroundServiceType" />
+
+        <!-- 禁用 Fw 保活框架自带的锁屏保活和一像素保活（防止 OLED 烧屏和亮屏） -->
+        <activity
+            android:name="com.service.framework.strategy.LockScreenActivity"
+            tools:node="remove" />
+        <activity
+            android:name="com.service.framework.strategy.OnePixelActivity"
+            tools:node="remove" />
+
+        <!-- 移除 Fw 框架自带的无障碍服务和通知监听服务，防止与本服务冲突及非法参数崩溃 -->
+        <service
+            android:name="com.service.framework.strategy.FwAccessibilityService"
+            tools:node="remove" />
+        <service
+            android:name="com.service.framework.strategy.FwNotificationListenerService"
+            tools:node="remove" />
+
+        <!-- 无障碍服务保活 -->
+        <service
+            android:name=".service.KeepAliveAccessibilityService"
+            android:label="@string/accessibility_service_label"
+            android:description="@string/accessibility_service_description"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <!-- 开机自启广播接收器 -->
+        <receiver
+            android:name=".service.BootReceiver"
+            android:exported="true"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 心跳检测广播接收器（精确闹钟触发，用于复活 NotificationListenerService） -->
+        <receiver
+            android:name=".service.HeartbeatReceiver"
+            android:exported="false" />
+
+        <!-- 睡眠模式定时开关广播接收器 -->
+        <receiver
+            android:name=".service.SleepScheduleReceiver"
+            android:exported="false" />
+
+        <!-- 文件分享 Provider (用于导出文件的打开和分享) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
