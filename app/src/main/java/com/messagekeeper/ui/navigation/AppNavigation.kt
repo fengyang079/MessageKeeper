@@ -25,9 +25,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Stream
 import androidx.compose.material.icons.rounded.ChatBubble
 import androidx.compose.material.icons.rounded.Insights
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Stream
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -58,12 +60,14 @@ import com.messagekeeper.ui.screens.chat.ChatScreen
 import com.messagekeeper.ui.screens.conversations.ConversationsScreen
 import com.messagekeeper.ui.screens.settings.SettingsScreen
 import com.messagekeeper.ui.screens.specialalert.SpecialAlertScreen
+import com.messagekeeper.ui.screens.status.StatusScreen
 import com.messagekeeper.ui.screens.trash.DeletedHistoryScreen
 import com.messagekeeper.ui.theme.AccentOrange
 
 object Routes {
     const val CONVERSATIONS   = "conversations"
     const val ANALYTICS       = "analytics"
+    const val STATUS          = "status"
     const val CHAT            = "chat/{conversationId}"
     const val SETTINGS        = "settings"
     const val SPECIAL_ALERTS  = "special_alerts"
@@ -83,6 +87,7 @@ data class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem(Routes.CONVERSATIONS, "消息", Icons.Rounded.ChatBubble, Icons.Outlined.ChatBubbleOutline),
     BottomNavItem(Routes.ANALYTICS,     "情报", Icons.Rounded.Insights,   Icons.Outlined.Insights),
+    BottomNavItem(Routes.STATUS,        "状态", Icons.Rounded.Stream,     Icons.Outlined.Stream),
     BottomNavItem(Routes.SETTINGS,      "设置", Icons.Rounded.Settings,   Icons.Outlined.Settings),
 )
 
@@ -174,6 +179,9 @@ fun MessageKeeperNavHost() {
                 }
                 composable(Routes.ANALYTICS) {
                     TabContainer(BottomBarHeight + navBarInset) { AnalyticsScreen() }
+                }
+                composable(Routes.STATUS) {
+                    TabContainer(BottomBarHeight + navBarInset) { StatusScreen() }
                 }
                 composable(Routes.SETTINGS) {
                     TabContainer(BottomBarHeight + navBarInset) {
